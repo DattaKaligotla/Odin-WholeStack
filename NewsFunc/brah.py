@@ -1,57 +1,4 @@
-import os
-import openai as ai
-import wandb
-import user
-class GPTDriver:
-    def __init__ (self,userInfo,userId,userMood,article):
-        self.APIkey = "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"
-        self.userInfo = userInfo
-        self.userId = userId
-        self.article = article 
-        self.userMood = userMood
-        self.outputArticle = None
-        self.outputTitle = None
-        self.userArticleGen = f"Given the following article: {article}, rewrite it based on the following user information, connecting it in a way that makes sense to their interests in a logical way: {userInfo}, write it in a tone, if appropriate that the user wants it in: {userMood}"
-        
-        
-    def generateOutputArticle(self):
-        ai.api_key = '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'
-        completions = ai.Completion.create(
-            engine='text-davinci-003',  # Determines the quality, speed, and cost.
-            temperature=0.5,            # Level of creativity in the response
-            prompt=self.userArticleGen,           # What the user typed in
-            max_tokens=500,             # Maximum tokens in the prompt AND response
-            n=1,                        # The number of completions to generate
-            stop=None,                  # An optional setting to control response generation
-        )
-        self.outputArticle = completions.choices[0].text
-    def getOutputArticle(self):
-        if(self.outputArticle != None):
-            return self.outputArticle
-        else:
-            return "Article is Empty"
-    def generateOutputTitle(self):
-        if(self.outputArticle != None):
-            ai.api_key = 'sk-somekeygoeshere'
-            userTitleGen = "Just Give me an Article Name based on the following article:" + self.outputArticle
-            completions = ai.Completion.create(
-                engine='text-davinci-003',  # Determines the quality, speed, and cost.
-                temperature=0.5,            # Level of creativity in the response
-                prompt=userTitleGen,           # What the user typed in
-                max_tokens=50,             # Maximum tokens in the prompt AND response
-                n=1,                        # The number of completions to generate
-                stop=None,                  # An optional setting to control response generation
-            )
-            self.outputTitle = completions.choices[0].text
-        else:
-            return "Article is Empty"
-    def getOutputTitle(self):
-        if(self.outputTitle != None):
-            return self.outputTitle
-        else:
-            return "Title is Empty"
-        
-inputArticle = """Sundar Pichai is facing what may likely be Google’s biggest competitive challenge in the 25 years since it was founded.
+article = """Sundar Pichai is facing what may likely be Google’s biggest competitive challenge in the 25 years since it was founded.
 
 His company's dominance in ad-rich search engine queries is under acute threat by Microsoft’s A.I.-enabled Bing just as heavy investments in Google Cloud mean the business continues to bleed red ink in an industry where profits seem to grow on trees for other hyperscalers.
 
@@ -89,13 +36,39 @@ Her analysts argue CEO Satya Nadella aims to exert enough pressure on Google wit
 
 This could then cede valuable market share to Azure. Microsoft’s rival hyperscaler earns a 40%-plus return on sales, translating into $8.9 billion in operating profits during just the past fiscal second-quarter alone.
 
-With 6% of Google's global workforce slated to lose their jobs, conserving desk space should therefore be the least of Googlers' concerns right now.   """        
-test = GPTDriver(["male","20 years old","interests: NFL, shoes, sports, videogames"], 123, "funny", inputArticle)
-test.generateOutputArticle
-test.generateOutputTitle
-print(test.getOutputTitle)      
+With 6% of Google's global workforce slated to lose their jobs, conserving desk space should therefore be the least of Googlers' concerns right now.   """ 
 
-print("**************")
-print(test.getOutputArticle)      
-       
-        
+import os
+import openai as ai
+import wandb
+import user
+userInfo = ["NFL", "Cologne", "Jalen Hurts", "Philadelphia Eagles"]
+import secrets
+thing = secrets.choice(userInfo)
+userMood = "funny"
+readingLevel = "Normal"
+userArticleGen = f"Here is the input article:{article}, rewrite the article in a way that connects key concepts to the following user interest: {thing}, also write in the following way: {userMood}, also write it in this reading level for the user: {readingLevel}"
+ai.api_key = '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'
+completions = ai.Completion.create(
+            engine='text-davinci-003',  # Determines the quality, speed, and cost.
+            temperature=0.75,            # Level of creativity in the response
+            prompt=userArticleGen,           # What the user typed in
+            max_tokens=500,             # Maximum tokens in the prompt AND response
+            n=1,                        # The number of completions to generate
+            stop=None,                  # An optional setting to control response generation
+        )
+outputArticle = completions.choices[0].text
+userTitleGen = "Just Give me an Article title based on the following article:" + outputArticle + "and connect it to" + thing+ "in some way"  + "user reading level: " + readingLevel
+completions = ai.Completion.create(
+                engine='text-davinci-003',  # Determines the quality, speed, and cost.
+                temperature=0.75,            # Level of creativity in the response
+                prompt=userTitleGen,           # What the user typed in
+                max_tokens=500,             # Maximum tokens in the prompt AND response
+                n=1,                        # The number of completions to generate
+                stop=None,                  # An optional setting to control response generation
+            )
+outputTitle = completions.choices[0].text
+print(outputTitle)
+
+print(outputArticle)
+print(thing)

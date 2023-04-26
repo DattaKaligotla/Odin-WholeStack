@@ -1,0 +1,107 @@
+{
+  "project_info": {
+    "project_number": "610285270739",
+    "firebase_url": "https://grassroot-de928.firebaseio.com",
+    "project_id": "grassroot-de928",
+    "storage_bucket": "grassroot-de928.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610285270739:android:0f1235815f245d1952c626",
+        "android_client_info": {
+          "package_name": "com.example.grassroot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610285270739-6ag619ii9ai22tfum9f41f9hsb7pk9pc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.grassroot",
+            "certificate_hash": "5f9dcf4078eba8872f37c72b031b1e8f48c4f086"
+          }
+        },
+        {
+          "client_id": "610285270739-bjdsihv2odet2q3p29rrg7jucnag0c8l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.grassroot",
+            "certificate_hash": "e37113cbd3b5c19e3796835a1b441e52f632153e"
+          }
+        },
+        {
+          "client_id": "610285270739-jvqe76hmuv03ikn9qe4hnidfc7te6bro.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.grassroot",
+            "certificate_hash": "6a4ef62d5e2e8daac5f17b660f9eced862a23964"
+          }
+        },
+        {
+          "client_id": "610285270739-7rmsaeu370j0uhdtsqqab7vt0aojm36a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBy4UtTLU-zzhhWM9e4eUu7I7a6ky2eSlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610285270739-7rmsaeu370j0uhdtsqqab7vt0aojm36a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "610285270739-28bqtbkr2cai3aqsi77a9prg2svsddst.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.grassroot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610285270739:android:c795d83b71c963a452c626",
+        "android_client_info": {
+          "package_name": "com.grassroot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610285270739-7rmsaeu370j0uhdtsqqab7vt0aojm36a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBy4UtTLU-zzhhWM9e4eUu7I7a6ky2eSlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610285270739-7rmsaeu370j0uhdtsqqab7vt0aojm36a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "610285270739-28bqtbkr2cai3aqsi77a9prg2svsddst.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.grassroot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
