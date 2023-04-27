@@ -72,12 +72,11 @@ def extract_article_content(url):
         return None
 
 
-article = extract_article_content('https://techcrunch.com/2023/04/19/snap-ceo-evan-spiegel-tiktok-ban/')
+article = extract_article_content('https://www.nbcnews.com/politics/congress/house-republicans-eye-wednesday-vote-debt-limit-bill-making-changes-rcna81326')
 import os
 import openai
 import wandb
-import user
-userInfo = ["Batman"]
+userInfo = ["New York Yankees"]
 import secrets
 thing = secrets.choice(userInfo)
 userMood = "funny"

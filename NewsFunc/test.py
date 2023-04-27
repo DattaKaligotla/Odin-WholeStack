@@ -4,7 +4,7 @@ from google.cloud import firestore
 db = firestore.Client()
 
 # Get reference to the collection
-my_collection = db.collection('my_collection')
+my_collection = db.collection('tech')
 
 # Get all documents in the collection
 docs = my_collection.get()

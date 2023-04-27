@@ -36,20 +36,30 @@ class NewsInit:
                                        from_param=self.fromDate,
                                       to=self.toDate,
                                       language='en',
-                                      sources= 'techcrunch,the-verge,ars-technica,TechRadar,cnn,crypto-coins-news,four-four-two,fox-news,hacker-news,nbc-news,cnn,abc-news,fox-news,usa-today,nbc-news',
+                                      sources= 'techcrunch,the-verge,ars-technica,TechRadar,cnn,crypto-coins-news,four-four-two,fox-news,hacker-news,nbc-news,cnn,abc-news,fox-news,nbc-news',
                                       sort_by='relevancy',)
         return extract_urls(all_articles)
-    def getFina(self):
+    def getBus(self):
         newsapi = NewsApiClient(api_key=self.apiKey)
 
         all_articles = newsapi.get_everything(q='business',
                                        from_param=self.fromDate,
                                       to=self.toDate,
                                       language='en',
-                                      sources= 'the-washington-post,reuters,the-verge,usa-today,four-four-two,fox-news,cnn,nbc-news',
+                                      sources= 'the-washington-post,reuters,the-verge,four-four-two,fox-news,cnn,nbc-news',
                                       sort_by='relevancy',)
         return extract_urls(all_articles)
+    
+    def getFina(self):
+            newsapi = NewsApiClient(api_key=self.apiKey)
 
+            all_articles = newsapi.get_everything(q='financial',
+                                        from_param=self.fromDate,
+                                        to=self.toDate,
+                                        language='en',
+                                        sources= 'the-washington-post,reuters,the-verge,four-four-two,fox-news,cnn,nbc-news',
+                                        sort_by='relevancy',)
+            return extract_urls(all_articles)
     def getSports(self):
         newsapi = NewsApiClient(api_key=self.apiKey)
 
@@ -78,7 +88,7 @@ class NewsInit:
                                        from_param=self.fromDate,
                                       to=self.toDate,
                                       language='en',
-                                      sources= 'cnn,abc-news,the-verge,fox-news,usa-today,nbc-news',
+                                      sources= 'cnn,abc-news,the-verge,fox-news,nbc-news',
                                       sort_by='relevancy',)
         return extract_urls(all_articles)
     

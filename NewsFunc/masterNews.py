@@ -19,7 +19,7 @@ def pushArticles(key,fromDate,toDate):
     sports = news.getSports()
     tech = news.getTech()
     ent = news.getEnt()
-    fina = news.getFina()
+    fina = news.getFina() + news.getBus()
     world = news.getWorld()
     data = {
     u'world': world,
@@ -32,4 +32,4 @@ def pushArticles(key,fromDate,toDate):
     }
     db.collection(u'init').document(u'master').set(data)
 
-pushArticles('3f3c1d3e1e9440f1bd3931b47b120f81','2023-04-22','2023-04-25')
+pushArticles('3f3c1d3e1e9440f1bd3931b47b120f81','2023-04-23','2023-04-26')

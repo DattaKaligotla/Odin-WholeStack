@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>559374436878-45p7n0hf9sdnlvkdffakce6tj8ls2q06.apps.googleusercontent.com</string>
+	<string>610285270739-egeqbbpq5af7onu63l3q8fjh7gtajqh3.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.559374436878-45p7n0hf9sdnlvkdffakce6tj8ls2q06</string>
+	<string>com.googleusercontent.apps.610285270739-egeqbbpq5af7onu63l3q8fjh7gtajqh3</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>610285270739-6ag619ii9ai22tfum9f41f9hsb7pk9pc.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDRP3qz04Pxsa1mNU3SpsF7ntZ1FYIRJgk</string>
+	<string>AIzaSyAjx1SKKnrVruOOJCmO2qH9krvPExWAnc8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>559374436878</string>
+	<string>610285270739</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.odin</string>
 	<key>PROJECT_ID</key>
-	<string>odin-69af8</string>
+	<string>grassroot-de928</string>
 	<key>STORAGE_BUCKET</key>
-	<string>odin-69af8.appspot.com</string>
+	<string>grassroot-de928.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:559374436878:ios:df98f3bb0b611ea3390a5f</string>
+	<string>1:610285270739:ios:eac876458edb1ab852c626</string>
+	<key>DATABASE_URL</key>
+	<string>https://grassroot-de928.firebaseio.com</string>
 </dict>
 </plist>

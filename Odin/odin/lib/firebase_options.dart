@@ -44,40 +44,46 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCg4gOUCSubbRvxDPDbJ-iVI8NVn8WMvSo',
-    appId: '1:559374436878:web:ba4a1e3cc148247a390a5f',
-    messagingSenderId: '559374436878',
-    projectId: 'odin-69af8',
-    authDomain: 'odin-69af8.firebaseapp.com',
-    storageBucket: 'odin-69af8.appspot.com',
-    measurementId: 'G-NNE5W8C4E2',
+    apiKey: 'AIzaSyAZuBM5e5JaNmjWt6SVgH8FhZ8JtLYnPgk',
+    appId: '1:610285270739:web:229a9af83c47b07f52c626',
+    messagingSenderId: '610285270739',
+    projectId: 'grassroot-de928',
+    authDomain: 'grassroot-de928.firebaseapp.com',
+    databaseURL: 'https://grassroot-de928.firebaseio.com',
+    storageBucket: 'grassroot-de928.appspot.com',
+    measurementId: 'G-7QRBR84HEH',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBCflnOqv_5GfkSTxSdPLJi49j_Qgrbj3M',
-    appId: '1:559374436878:android:759c7b58f45cb20a390a5f',
-    messagingSenderId: '559374436878',
-    projectId: 'odin-69af8',
-    storageBucket: 'odin-69af8.appspot.com',
+    apiKey: 'AIzaSyBy4UtTLU-zzhhWM9e4eUu7I7a6ky2eSlc',
+    appId: '1:610285270739:android:90dd4b411a1e083852c626',
+    messagingSenderId: '610285270739',
+    projectId: 'grassroot-de928',
+    databaseURL: 'https://grassroot-de928.firebaseio.com',
+    storageBucket: 'grassroot-de928.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDRP3qz04Pxsa1mNU3SpsF7ntZ1FYIRJgk',
-    appId: '1:559374436878:ios:df98f3bb0b611ea3390a5f',
-    messagingSenderId: '559374436878',
-    projectId: 'odin-69af8',
-    storageBucket: 'odin-69af8.appspot.com',
-    iosClientId: '559374436878-45p7n0hf9sdnlvkdffakce6tj8ls2q06.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAjx1SKKnrVruOOJCmO2qH9krvPExWAnc8',
+    appId: '1:610285270739:ios:eac876458edb1ab852c626',
+    messagingSenderId: '610285270739',
+    projectId: 'grassroot-de928',
+    databaseURL: 'https://grassroot-de928.firebaseio.com',
+    storageBucket: 'grassroot-de928.appspot.com',
+    androidClientId: '610285270739-6ag619ii9ai22tfum9f41f9hsb7pk9pc.apps.googleusercontent.com',
+    iosClientId: '610285270739-egeqbbpq5af7onu63l3q8fjh7gtajqh3.apps.googleusercontent.com',
     iosBundleId: 'com.example.odin',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDRP3qz04Pxsa1mNU3SpsF7ntZ1FYIRJgk',
-    appId: '1:559374436878:ios:df98f3bb0b611ea3390a5f',
-    messagingSenderId: '559374436878',
-    projectId: 'odin-69af8',
-    storageBucket: 'odin-69af8.appspot.com',
-    iosClientId: '559374436878-45p7n0hf9sdnlvkdffakce6tj8ls2q06.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAjx1SKKnrVruOOJCmO2qH9krvPExWAnc8',
+    appId: '1:610285270739:ios:eac876458edb1ab852c626',
+    messagingSenderId: '610285270739',
+    projectId: 'grassroot-de928',
+    databaseURL: 'https://grassroot-de928.firebaseio.com',
+    storageBucket: 'grassroot-de928.appspot.com',
+    androidClientId: '610285270739-6ag619ii9ai22tfum9f41f9hsb7pk9pc.apps.googleusercontent.com',
+    iosClientId: '610285270739-egeqbbpq5af7onu63l3q8fjh7gtajqh3.apps.googleusercontent.com',
     iosBundleId: 'com.example.odin',
   );
 }
