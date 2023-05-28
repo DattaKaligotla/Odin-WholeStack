@@ -32,4 +32,4 @@ def pushArticles(key,fromDate,toDate):
     }
     db.collection(u'init').document(u'master').set(data)
 
-pushArticles('3f3c1d3e1e9440f1bd3931b47b120f81','2023-04-23','2023-04-26')
+pushArticles('3f3c1d3e1e9440f1bd3931b47b120f81','2023-05-21','2023-05-23')

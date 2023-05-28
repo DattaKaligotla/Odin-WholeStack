@@ -76,7 +76,7 @@ article = extract_article_content('https://www.nbcnews.com/politics/congress/hou
 import os
 import openai
 import wandb
-userInfo = ["New York Yankees"]
+userInfo = ["Flowers"]
 import secrets
 thing = secrets.choice(userInfo)
 userMood = "funny"
