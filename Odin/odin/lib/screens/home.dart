@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+        return Scaffold(
       appBar: AppBar(
         title: Text('Odin News'),
         backgroundColor: AppColors.blue,
@@ -74,8 +74,7 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: _newsStream,
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot)
-{
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Something went wrong');
                   }
@@ -84,57 +83,73 @@ class _HomePageState extends State<HomePage> {
                     return CircularProgressIndicator();
                   }
 
-                  return ListView.builder(
+                  return PageView.builder(
+                    scrollDirection: Axis.vertical,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (BuildContext context, int index) {
                       Map<String, dynamic> data = snapshot.data!.docs[index].data()! as Map<String, dynamic>;
-                      return ExpansionTile(
-                        title: Text(
-                          data['title'],
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                        ),
-                        children: [
-                          SingleChildScrollView( // Added this
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Column(
+
+                      return Card(
+                        elevation: 5.0,
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                data['title'],
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                              ),
+                              subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     data['topic'],
                                     style: TextStyle(color: Colors.grey, fontSize: 20),
                                   ),
-                                  SizedBox(height: 10),
                                   Text(
                                     DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(data['date'])),
                                     style: TextStyle(color: Colors.grey, fontSize: 18),
                                   ),
-                                  SizedBox(height: 20),
-                                  Text(
-                                    data['article'],
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                  SizedBox(height: 20),
-                                  Container(
-                                    width: double.infinity,
-                                    child: ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all(Colors.grey[800]),
-                                      ),
-                                      onPressed: () {}, // Add appropriate functionality for the button here
-                                      child: Text('Read More'),
-                                    ),
-                                  ),
-                                  SizedBox(height: 20),
                                 ],
                               ),
+                              trailing: IconButton(
+                                icon: Icon(Icons.arrow_drop_down),
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return SingleChildScrollView(
+                                        child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                data['article'],
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                              SizedBox(height: 20),
+                                              ElevatedButton(
+                                                style: ButtonStyle(
+                                                  backgroundColor: MaterialStateProperty.all(Colors.grey[800]),
+                                                ),
+                                                onPressed: () {}, // Add appropriate functionality for the button here
+                                                child: Text('Read More'),
+                                              ),
+                                              SizedBox(height: 20),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       );
                     },
                   );
-
                 },
               ),
             ),
@@ -144,3 +159,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
