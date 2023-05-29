@@ -43,6 +43,7 @@ dependencies:
   cloud_firestore: ^4.5.3
   flutter_masked_text2: ^0.9.1
   animations: ^2.0.1
+  google_fonts: ^2.1.0
 
 dev_dependencies:
   flutter_test:

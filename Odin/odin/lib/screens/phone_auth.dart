@@ -54,7 +54,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                               controller: _phoneController,
                               decoration: InputDecoration(
                                 hintText: 'Enter your phone number',
-                                hintStyle: TextStyle(color: AppColors.grayshade),
+                                hintStyle: TextStyle(color: AppColors.greyshade),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: AppColors.blue),
                                   borderRadius: BorderRadius.circular(32),
