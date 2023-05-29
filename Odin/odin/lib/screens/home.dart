@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:odin/styles/app_colors.dart';
+import 'package:animations/animations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,14 +13,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<String> _categories = ['entertainment', 'financial', 'poli', 'sports', 'tech', 'world'];
-  final Map<String, Color> _categoryColors = {
-    'entertainment': Colors.grey[700]!,
-    'financial': Colors.grey[600]!,
-    'poli': Colors.grey[500]!,
-    'sports': Colors.grey[400]!,
-    'tech': Colors.grey[300]!,
-    'world': Colors.grey[200]!,
-  };
   String _currentCategory = 'entertainment';
   Stream<QuerySnapshot> _newsStream = FirebaseFirestore.instance
       .collection('entertainment')
@@ -38,7 +31,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-        return Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text('Odin News'),
         backgroundColor: AppColors.blue,
@@ -55,16 +48,24 @@ class _HomePageState extends State<HomePage> {
                   return GestureDetector(
                     onTap: () => _changeCategory(_categories[index]),
                     child: AnimatedContainer(
-                      duration: Duration(milliseconds: 200),
+                      duration: Duration(milliseconds: 500),
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [_categoryColors[_categories[index]]!, _categoryColors[_categories[index]]!.withOpacity(0.6)]),
+                        color: _currentCategory == _categories[index] ? AppColors.blue : AppColors.whiteshade,
                         borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: _currentCategory == _categories[index] ? Colors.blue.withOpacity(0.5) : Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 3,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
                       ),
                       child: Text(
                         _categories[index].toUpperCase(),
-                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                        style: TextStyle(color: _currentCategory == _categories[index] ? Colors.white : AppColors.blackshade, fontWeight: FontWeight.bold),
                       ),
                     ),
                   );
@@ -83,72 +84,44 @@ class _HomePageState extends State<HomePage> {
                     return CircularProgressIndicator();
                   }
 
-                  return PageView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Map<String, dynamic> data = snapshot.data!.docs[index].data()! as Map<String, dynamic>;
-
-                      return Card(
-                        elevation: 5.0,
-                        child: Column(
-                          children: [
-                            ListTile(
-                              title: Text(
-                                data['title'],
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    data['topic'],
-                                    style: TextStyle(color: Colors.grey, fontSize: 20),
-                                  ),
-                                  Text(
-                                    DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(data['date'])),
-                                    style: TextStyle(color: Colors.grey, fontSize: 18),
-                                  ),
-                                ],
-                              ),
-                              trailing: IconButton(
-                                icon: Icon(Icons.arrow_drop_down),
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) {
-                                      return SingleChildScrollView(
-                                        child: Container(
-                                          padding: EdgeInsets.all(10),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                data['article'],
-                                                style: TextStyle(fontSize: 18),
-                                              ),
-                                              SizedBox(height: 20),
-                                              ElevatedButton(
-                                                style: ButtonStyle(
-                                                  backgroundColor: MaterialStateProperty.all(Colors.grey[800]),
-                                                ),
-                                                onPressed: () {}, // Add appropriate functionality for the button here
-                                                child: Text('Read More'),
-                                              ),
-                                              SizedBox(height: 20),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
+                  return PageTransitionSwitcher(
+                    duration: const Duration(milliseconds: 800),
+                    reverse: false,
+                    transitionBuilder: (
+                      Widget child,
+                      Animation<double> animation,
+                      Animation<double> secondaryAnimation,
+                    ) {
+                      return SharedAxisTransition(
+                        child: child,
+                        animation: animation,
+                        secondaryAnimation: secondaryAnimation,
+                        transitionType: SharedAxisTransitionType.vertical,
                       );
                     },
+                    child: ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        Map<String, dynamic> data = snapshot.data!.docs[index].data() as Map<String, dynamic>;
+                        return OpenContainer(
+                          closedElevation: 3.0,
+                          closedShape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          closedColor: AppColors.whiteshade,
+                          transitionDuration: Duration(milliseconds: 600),
+                          transitionType: ContainerTransitionType.fadeThrough,
+                          openBuilder: (_, __) => ArticlePage(data),
+                          closedBuilder: (_, __) {
+                            return ListTile(
+                              title: Text(data['title']),
+                              subtitle: Text(DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(data['date']))),
+                              trailing: Icon(Icons.arrow_forward_ios),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   );
                 },
               ),
@@ -160,3 +133,49 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+class ArticlePage extends StatelessWidget {
+  final Map<String, dynamic> data;
+
+  ArticlePage(this.data);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(data['title']),
+        backgroundColor: AppColors.blue,
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Hero(
+              tag: 'article-${data['id']}',
+              child: Material(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      data['title'],
+                      style: TextStyle(color: AppColors.blackshade, fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(data['date'])),
+                      style: TextStyle(color: AppColors.grayshade, fontSize: 16),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      data['article'],
+                      style: TextStyle(color: AppColors.blackshade, fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
