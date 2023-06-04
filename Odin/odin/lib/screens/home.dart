@@ -32,34 +32,43 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Widget _buildTopicLabel(String topic) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white, width: 2),
+      ),
+      child: Text(
+        topic,
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
   String _getFormattedTopic(String topic) {
-    // Perform topic name mapping here
-    if (topic == 'superheroes') {
-      return 'Superheroes';
-    } else if (topic == 'rappers') {
-      return 'Rappers';
-    } else if (topic == 'pop_artists') {
-      return 'Pop Artists';
-    } else if (topic == 'fitness') {
-      return 'Fitness';
-    } else if (topic == 'kpop_artists') {
-      return 'K-Pop Artists';
-    } else if (topic == 'nfl_teams') {
-      return 'NFL Teams';
-    } else if (topic == 'soccer_clubs') {
-      return 'Soccer Clubs';
-    } else if (topic == 'nba_teams') {
-      return 'NBA Teams';
-    } else if (topic == 'fashion_brands') {
-      return 'Fashion Brands';
-    } else if (topic == 'famous_anime') {
-      return 'Famous Anime';
-    } else if (topic == 'famous_influencers') {
-      return 'Famous Influencers';
-    } else if (topic == 'disney_characters') {
-      return 'Disney Characters';
-    } else {
-      return topic; // Return the original topic name if no mapping is available
+    // Map topic to actual topic names
+    switch (topic) {
+      case 'kpop_stars':
+        return 'Kpop';
+      case 'nfl_teams':
+        return 'NFL Teams';
+      case 'soccer_clubs':
+        return 'Soccer Clubs';
+      case 'nba_teams':
+        return 'NBA Teams';
+      case 'fashion_brands':
+        return 'Fashion Brands';
+      case 'famous_anime':
+        return 'Famous Anime';
+      case 'famous_influencers':
+        return 'Famous Influencers';
+      case 'disney_characters':
+        return 'Disney Characters';
+      default:
+        // Capitalize other topics
+        return topic[0].toUpperCase() + topic.substring(1);
     }
   }
 
@@ -141,12 +150,12 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (BuildContext context, int index) {
                         Map<String, dynamic> data = articles[index];
 
-                        final dateTime = DateTime.fromMillisecondsSinceEpoch(data['date'] as int);
+                        final dateTime = DateTime.fromMillisecondsSinceEpoch((data['date'] as int) * 1000);
                         final formattedDate = DateFormat.yMMMd().format(dateTime);
-                        final formattedTime = DateFormat.jm().format(dateTime); // Use regular time format (12-hour format)
+                        final formattedTime = DateFormat.jm().format(dateTime);
 
                         final topic = data['topic'] as String;
-                        final formattedTopic = _getFormattedTopic(topic); // Get the formatted topic name
+                        final formattedTopic = _getFormattedTopic(topic);
 
                         return OpenContainer(
                           transitionType: ContainerTransitionType.fadeThrough,
@@ -163,11 +172,19 @@ class _HomePageState extends State<HomePage> {
                                     textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                                   ),
                                 ),
-                                subtitle: Text(
-                                  '${formattedTopic}\n${formattedDate} ${formattedTime}',
-                                  style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(fontSize: 14),
-                                  ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height: 5),
+                                    _buildTopicLabel(formattedTopic), // Display formatted topic with label outline
+                                    SizedBox(height: 5),
+                                    Text(
+                                      '${formattedDate} ${formattedTime}',
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(fontSize: 14),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 trailing: Icon(Icons.arrow_forward_ios),
                               ),
@@ -214,7 +231,7 @@ class ArticlePage extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(data['date'] as int)),
+                  DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch((data['date'] as int) * 1000)),
                   style: GoogleFonts.poppins(
                     textStyle: TextStyle(color: AppColors.greyshade, fontSize: 16),
                   ),
