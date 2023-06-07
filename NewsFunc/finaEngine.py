@@ -30,7 +30,7 @@ def extract_article_content(url):
 
 superheroes = ['Spider-Man', 'Batman', 'Superman', 'Iron Man', 'Wonder Woman', 'Captain America', 'Thor', 'Black Widow', 'The Flash', 'Green Lantern', 'Aquaman', 'Hulk', 'Doctor Strange', 'Wolverine', 'Deadpool', 'Daredevil']
 rappers = ['Kendrick Lamar', 'J. Cole', 'Drake', 'Jay-Z', 'Nas', 'Eminem', 'Kanye West', 'Lil Wayne', 'Travis Scott', 'Cardi B', 'Nicki Minaj', 'Megan Thee Stallion', 'Post Malone', 'Snoop Dogg', 'Ice Cube', 'Tupac Shakur', 'The Notorious B.I.G.']
-pop_artists = [
+pop = [
     "Ariana Grande",
     "Billie Eilish",
     "Dua Lipa",
@@ -52,8 +52,7 @@ pop_artists = [
     "Selena Gomez",
     "Cardi B"
 ]
-fitness = ["fitness", "gym", "gymshark", "weight-training"]
-kpop_artists = [
+kpop = [
     "BTS",
     "BLACKPINK",
     "EXO",
@@ -75,7 +74,7 @@ kpop_artists = [
     "iKON",
     "SOMI"
 ]
-nfl_teams = [
+nfl = [
     "Arizona Cardinals",
     "Atlanta Falcons",
     "Baltimore Ravens",
@@ -109,7 +108,7 @@ nfl_teams = [
     "Tennessee Titans",
     "Washington Commanders"
 ]
-soccer_clubs = [
+soccer = [
     # Premier League teams (2021-2022 season)
     "Arsenal",
     "Aston Villa",
@@ -144,7 +143,7 @@ soccer_clubs = [
     "Borussia Dortmund",
     "Ajax"
 ]
-nba_teams = [
+nba = [
     "Atlanta Hawks",
     "Boston Celtics",
     "Brooklyn Nets",
@@ -176,7 +175,7 @@ nba_teams = [
     "Utah Jazz",
     "Washington Wizards"
 ]
-fashion_brands = [
+fashion = [
     "Gucci",
     "Louis Vuitton",
     "Prada",
@@ -208,34 +207,8 @@ fashion_brands = [
     "Bape",
     "Stone Island"
 ]
-famous_influencers = [
-    "PewDiePie",
-    "Charli D'Amelio",
-    "Dixie D'Amelio",
-    "Addison Rae",
-    "Zach King",
-    "Bella Poarch",
-    "MrBeast",
-    "Lele Pons",
-    "Liza Koshy",
-    "David Dobrik",
-    "Casey Neistat",
-    "Huda Kattan",
-    "Cameron Dallas",
-    "Nash Grier",
-    "JoJo Siwa",
-    "Jeffree Star",
-    "James Charles",
-    "Shane Dawson",
-    "Tana Mongeau",
-    "Logan Paul",
-    "Jake Paul",
-    "Emma Chamberlain",
-    "Bretman Rock",
-    "NikkieTutorials",
-    "Manny MUA"
-]
-famous_anime = [
+
+anime = [
     "Naruto",
     "Dragon Ball Z",
     "One Piece",
@@ -257,7 +230,7 @@ famous_anime = [
     "Steins;Gate",
     "JoJo's Bizarre Adventure"
 ]
-disney_characters = [
+disney = [
     "Mickey Mouse",
     "Minnie Mouse",
     "Donald Duck",
@@ -284,8 +257,68 @@ disney_characters = [
     "Winnie the Pooh",
     "Tinker Bell"
 ]
+celebrities = [
+    "Brad Pitt",
+    "Angelina Jolie",
+    "Johnny Depp",
+    "Leonardo DiCaprio",
+    "Jennifer Lawrence",
+    "Scarlett Johansson",
+    "Tom Hanks",
+    "Robert Downey Jr.",
+    "Julia Roberts",
+    "Oprah Winfrey",
+    "Dwayne Johnson",
+    "Will Smith",
+    "Tom Cruise",
+    "Meryl Streep",
+    "Sandra Bullock",
+    "Nicole Kidman",
+    "George Clooney",
+    "Cameron Diaz",
+    "Daniel Radcliffe",
+    "Emma Watson",
+    "Ryan Reynolds",
+    "Chris Hemsworth",
+    "Robert Pattinson",
+    "Hugh Jackman",
+    "Anne Hathaway"
+]
 
-userInfo = [superheroes, rappers,pop_artists,fitness,kpop_artists,nfl_teams,soccer_clubs,nba_teams,fashion_brands,famous_anime,famous_influencers,disney_characters]
+baseball = [
+    "Arizona Diamondbacks",
+    "Atlanta Braves",
+    "Baltimore Orioles",
+    "Boston Red Sox",
+    "Chicago White Sox",
+    "Chicago Cubs",
+    "Cincinnati Reds",
+    "Cleveland Guardians",
+    "Colorado Rockies",
+    "Detroit Tigers",
+    "Houston Astros",
+    "Kansas City Royals",
+    "Los Angeles Angels",
+    "Los Angeles Dodgers",
+    "Miami Marlins",
+    "Milwaukee Brewers",
+    "Minnesota Twins",
+    "New York Yankees",
+    "New York Mets",
+    "Oakland Athletics",
+    "Philadelphia Phillies",
+    "Pittsburgh Pirates",
+    "San Diego Padres",
+    "San Francisco Giants",
+    "Seattle Mariners",
+    "St. Louis Cardinals",
+    "Tampa Bay Rays",
+    "Texas Rangers",
+    "Toronto Blue Jays",
+    "Washington Nationals"
+]
+
+userInfo = [baseball,superheroes, rappers,pop,kpop,nfl,soccer,nba,fashion,anime,celebrities,disney]
 import secrets
 
 

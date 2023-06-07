@@ -92,8 +92,3 @@ class NewsInit:
                                       sort_by='relevancy',)
         return extract_urls(all_articles)
     
-
-    
-    
-
-
