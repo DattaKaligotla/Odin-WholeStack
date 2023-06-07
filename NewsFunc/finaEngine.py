@@ -328,9 +328,9 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 # Use a service account to authenticate
-app = firebase_admin.initialize_app()
+cred = credentials.Certificate('grassroot-de928-firebase-adminsdk-x9qyy-920b00ba5e.json')
+app = firebase_admin.initialize_app(cred)
 db = firestore.client()
-
 # Get a Firestore client
 
 # Define the collection, document, and field names
