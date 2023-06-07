@@ -44,6 +44,8 @@ dependencies:
   flutter_masked_text2: ^0.9.1
   animations: ^2.0.1
   google_fonts: ^2.1.0
+  page_turn: ^1.0.1
+  
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -13,14 +14,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<String> _categories = ['entertainment', 'financial', 'poli', 'sports', 'tech', 'world'];
-  String _currentCategory = 'entertainment';
+  final List<String> _categories = ['financial', 'poli', 'sports', 'tech', 'world'];
+  String _currentCategory = 'financial';
   Stream<QuerySnapshot> _newsStream = FirebaseFirestore.instance
-      .collection('entertainment')
+      .collection('financial')
       .orderBy('date', descending: true)
       .snapshots();
 
   final _pageController = PageController(viewportFraction: 0.85);
+  int _selectedIndex = 0;
 
   void _changeCategory(String newCategory) {
     setState(() {
@@ -33,11 +35,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildTopicLabel(String topic) {
-    return Container(
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: Colors.blue,
-        borderRadius: BorderRadius.circular(20),
+        color: AppColors.blue,
+        borderRadius: BorderRadius.circular(30),
         border: Border.all(color: Colors.white, width: 2),
       ),
       child: Text(
@@ -48,7 +52,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   String _getFormattedTopic(String topic) {
-    // Map topic to actual topic names
     switch (topic) {
       case 'kpop_stars':
         return 'Kpop';
@@ -67,7 +70,6 @@ class _HomePageState extends State<HomePage> {
       case 'disney_characters':
         return 'Disney Characters';
       default:
-        // Capitalize other topics
         return topic[0].toUpperCase() + topic.substring(1);
     }
   }
@@ -97,26 +99,37 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: GestureDetector(
-                        onTap: () => _changeCategory(_categories[index]),
+                      child: PageTransitionSwitcher(
+                        transitionBuilder: (Widget child, Animation<double> animation, Animation<double> secondaryAnimation) {
+                          return SharedAxisTransition(
+                            child: child,
+                            animation: animation,
+                            secondaryAnimation: secondaryAnimation,
+                            transitionType: SharedAxisTransitionType.horizontal,
+                          );
+                        },
                         child: AnimatedContainer(
-                          duration: Duration(milliseconds: 500),
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
                           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                           decoration: BoxDecoration(
                             color: _currentCategory == _categories[index] ? AppColors.blue : AppColors.whiteshade,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(30),
                             boxShadow: [
                               BoxShadow(
                                 color: _currentCategory == _categories[index] ? Colors.blue.withOpacity(0.5) : Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 3,
+                                spreadRadius: 3,
+                                blurRadius: 5,
                                 offset: Offset(0, 3),
                               ),
                             ],
                           ),
-                          child: Text(
-                            _categories[index].toUpperCase(),
-                            style: TextStyle(color: _currentCategory == _categories[index] ? Colors.white : AppColors.blackshade, fontWeight: FontWeight.bold),
+                          child: TextButton(
+                            onPressed: () => _changeCategory(_categories[index]),
+                            child: Text(
+                              _categories[index].toUpperCase(),
+                              style: TextStyle(color: _currentCategory == _categories[index] ? Colors.white : AppColors.blackshade, fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
                       ),
@@ -137,61 +150,76 @@ class _HomePageState extends State<HomePage> {
                       return CircularProgressIndicator();
                     }
 
-                    final articles = snapshot.data!.docs
-                        .map((doc) => doc.data()! as Map<String, dynamic>)
-                        .toList();
+                    final articles = snapshot.data!.docs;
 
-                    articles.sort((a, b) => (b['date'] as int).compareTo(a['date'] as int));
-
-                    return PageView.builder(
-                      controller: _pageController,
-                      scrollDirection: Axis.vertical,
-                      itemCount: articles.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        Map<String, dynamic> data = articles[index];
-
-                        final dateTime = DateTime.fromMillisecondsSinceEpoch((data['date'] as int) * 1000);
-                        final formattedDate = DateFormat.yMMMd().format(dateTime);
-                        final formattedTime = DateFormat.jm().format(dateTime);
-
-                        final topic = data['topic'] as String;
-                        final formattedTopic = _getFormattedTopic(topic);
-
-                        return OpenContainer(
-                          transitionType: ContainerTransitionType.fadeThrough,
-                          transitionDuration: Duration(milliseconds: 500),
-                          openBuilder: (_, __) => ArticlePage(data),
-                          closedBuilder: (_, openContainer) => GestureDetector(
-                            onTap: openContainer,
-                            child: Card(
-                              margin: EdgeInsets.symmetric(vertical: 10),
-                              child: ListTile(
-                                title: Text(
-                                  data['title'],
-                                  style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: 5),
-                                    _buildTopicLabel(formattedTopic), // Display formatted topic with label outline
-                                    SizedBox(height: 5),
-                                    Text(
-                                      '${formattedDate} ${formattedTime}',
-                                      style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(fontSize: 14),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                trailing: Icon(Icons.arrow_forward_ios),
-                              ),
-                            ),
-                          ),
+                    return PageTransitionSwitcher(
+                      duration: const Duration(milliseconds: 800),
+                      reverse: true,
+                      transitionBuilder: (
+                        Widget child,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation,
+                      ) {
+                        return FadeThroughTransition(
+                          animation: animation,
+                          secondaryAnimation: secondaryAnimation,
+                          child: child,
                         );
                       },
+                      child: PageView.builder(
+                        controller: _pageController,
+                        scrollDirection: Axis.vertical,
+                        itemCount: articles.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          Map<String, dynamic> data = articles[index].data() as Map<String, dynamic>;
+                          String documentId = articles[index].id;
+
+                          final dateTime = DateTime.fromMillisecondsSinceEpoch((data['date'] as int) * 1000);
+                          final formattedDate = DateFormat.yMMMd().format(dateTime);
+                          final formattedTime = DateFormat.jm().format(dateTime);
+
+                          final topic = data['topic'] as String;
+                          final formattedTopic = _getFormattedTopic(topic);
+
+                          return OpenContainer(
+                            transitionType: ContainerTransitionType.fadeThrough,
+                            transitionDuration: Duration(milliseconds: 500),
+                            openBuilder: (_, __) => ArticlePage(data),
+                            closedBuilder: (_, openContainer) => GestureDetector(
+                              onTap: openContainer,
+                              child: Hero(
+                                tag: documentId,
+                                child: Card(
+                                  margin: EdgeInsets.symmetric(vertical: 10),
+                                  child: ListTile(
+                                    title: Text(
+                                      data['title'],
+                                      style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 5),
+                                        _buildTopicLabel(formattedTopic), // Display formatted topic with label outline
+                                        SizedBox(height: 5),
+                                        Text(
+                                          '${formattedDate} ${formattedTime}',
+                                          style: GoogleFonts.poppins(
+                                            textStyle: TextStyle(fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    trailing: Icon(Icons.arrow_forward_ios),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     );
                   },
                 ),
@@ -199,6 +227,31 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+            if (_selectedIndex == 1) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsPage()),
+              );
+            }
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        selectedItemColor: AppColors.blue, // Set the selected item color to match the app's blue color
       ),
     );
   }
@@ -248,6 +301,63 @@ class ArticlePage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class SettingsPage extends StatelessWidget {
+  Future<void> _logout(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      Navigator.pop(context); // Close the settings page
+    } catch (e) {
+      // Handle error if logout fails
+      print('Logout Error: $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Settings'),
+        backgroundColor: AppColors.blue,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () => _logout(context), // Call the logout function when the button is pressed
+              style: ElevatedButton.styleFrom(
+                primary: AppColors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                padding: EdgeInsets.all(15),
+              ),
+              child: Text('Logout'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Odin News',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: HomePage(),
     );
   }
 }

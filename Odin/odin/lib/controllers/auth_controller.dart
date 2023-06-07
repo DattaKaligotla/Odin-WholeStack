@@ -1,8 +1,8 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:odin/screens/home.dart';
+import 'package:odin/screens/interests.dart';
 import 'package:odin/screens/landing.dart';
 import 'package:odin/utils/constants.dart';
 
@@ -21,11 +21,18 @@ class AuthController extends GetxController {
     ever(firebaseUser, _setInitialScreen);
   }
 
-  _setInitialScreen(User? user) {
+  _setInitialScreen(User? user) async {
     if (user == null) {
       Get.offAll(() => const LandingPage());
     } else {
-      Get.offAll(() => const HomePage());
+      // Get the user document from Firestore
+      var userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+
+      if (userDoc.exists) {
+        Get.offAll(() => HomePage());
+      } /*else {
+        Get.offAll(() => InterestsScreen(uid: user.uid));
+      }*/
     }
   }
 

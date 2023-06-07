@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:get/get.dart';
 import 'package:odin/screens/home.dart';
+import 'package:odin/screens/interests.dart';
 import 'package:odin/styles/app_colors.dart';
 import 'package:odin/widgets/custom_button.dart';
 
@@ -30,9 +33,19 @@ class _OTPScreenState extends State<OTPScreen> {
       phoneNumber: widget.phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {
         await _auth.signInWithCredential(credential);
+
+        String uid = _auth.currentUser!.uid;
+        var userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+        if (userDoc.exists) {
+          Get.offAll(() => HomePage());
+        } else {
+          Get.offAll(() => InterestsScreen(uid: uid));
+        }
       },
       verificationFailed: (FirebaseAuthException e) {
-        print(e);
+        if (e.code == 'invalid-phone-number') {
+          print('The provided phone number is not valid.');
+        }
       },
       codeSent: (String verificationId, int? resendToken) {
         setState(() {
@@ -45,36 +58,6 @@ class _OTPScreenState extends State<OTPScreen> {
         });
       },
     );
-  }
-
-  void _validateOtpAndLogin() async {
-    try {
-      final credential = PhoneAuthProvider.credential(
-        verificationId: _verificationId,
-        smsCode: _codeController.text.trim(),
-      );
-      final UserCredential userCredential = await _auth.signInWithCredential(credential);
-
-      if (userCredential.user != null) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-          (Route<dynamic> route) => false,
-        );
-      }
-    } on FirebaseAuthException catch (e) {
-      print(e);
-    }
-  }
-  final List<TextEditingController> _codeControllers = List<TextEditingController>.generate(6, (index) => TextEditingController());
-  // Initialize the FocusNode for each digit
-  final List<FocusNode> _focusNodes = List<FocusNode>.generate(6, (index) => FocusNode());
-
-  // Function to focus on the next field
-  void nextField(String value, FocusNode focusNode) {
-    if (value.length == 1) {
-      focusNode.requestFocus();
-    }
   }
 
   @override
@@ -109,7 +92,21 @@ class _OTPScreenState extends State<OTPScreen> {
               margin: EdgeInsets.all(32),
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: _validateOtpAndLogin,
+                onPressed: () async {
+                  final credential = PhoneAuthProvider.credential(
+                    verificationId: _verificationId,
+                    smsCode: _codeController.text.trim(),
+                  );
+                  await _auth.signInWithCredential(credential);
+
+                  String uid = _auth.currentUser!.uid;
+                  var userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+                  if (userDoc.exists) {
+                    Get.offAll(() => HomePage());
+                  } else {
+                    Get.offAll(() => InterestsScreen(uid: uid));
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   primary: AppColors.blue,
                   shape: RoundedRectangleBorder(
@@ -125,5 +122,4 @@ class _OTPScreenState extends State<OTPScreen> {
       ),
     );
   }
-
 }
